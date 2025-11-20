@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>All Bookings</h1>
+
+{% if bookings|length == 0 %}
+  <p>ยังไม่มีการจอง</p>
+{% else %}
+  <table border="1" cellpadding="6">
+    <tr>
+      <th>ห้อง</th>
+      <th>วันที่</th>
+      <th>เวลา</th>
+      <th>ผู้จอง</th>
+      <th>อีเมล</th>
+    </tr>
+    {% for b in bookings %}
+      <tr>
+        <td>{{ b.room_name }}</td>
+        <td>{{ b.date }}</td>
+        <td>{{ b.start_time }} - {{ b.end_time }}</td>
+        <td>{{ b.person_name }}</td>
+        <td>{{ b.person_email }}</td>
+      </tr>
+    {% endfor %}
+  </table>
+{% endif %}
+{% endblock %}

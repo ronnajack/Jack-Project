@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>{{ room.name }}</h2>
+<p>{{ room.description }}</p>
+
+{% if error %}
+<p style="color:red;">{{ error }}</p>
+{% endif %}
+
+<h3>Bookings</h3>
+<ul>
+{% for b in bookings %}
+    <li>{{ b.date }} {{ b.start_time }} - {{ b.end_time }} ({{ b.person_name }})</li>
+{% endfor %}
+</ul>
+
+<h3>Book</h3>
+<form method="post" action="/book/{{ room.id }}">
+    <label>Date: <input type="date" name="date" required></label><br>
+    <label>Start: <input type="time" name="start_time" required></label><br>
+    <label>End: <input type="time" name="end_time" required></label><br>
+    <label>Name: <input type="text" name="person_name" required></label><br>
+    <label>Email: <input type="email" name="person_email" required></label><br>
+    <button type="submit">Book</button>
+</form>
+{% endblock %}
