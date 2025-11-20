@@ -3,7 +3,7 @@ from fastapi.responses import RedirectResponse
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 from datetime import datetime
-import itertools # สำหรับใช้ในการสร้าง ID
+import itertools  # สำหรับใช้ในการสร้าง ID
 
 app = FastAPI()
 
@@ -22,9 +22,10 @@ rooms = [
 
 # เก็บการจองทั้งหมดไว้ใน list
 bookings = []  # แต่ละรายการเป็น dict
-booking_id_counter = itertools.count(1) # ใช้ counter เพื่อสร้าง ID
+booking_id_counter = itertools.count(1)  # ใช้ counter เพื่อสร้าง ID
 
 # -------------------- ฟังก์ชันช่วย --------------------
+
 
 def is_conflict(new_start: datetime, new_end: datetime, existing_start: datetime, existing_end: datetime) -> bool:
     """ตรวจสอบว่าช่วงเวลาใหม่ซ้อนทับกับช่วงเวลาที่มีอยู่หรือไม่"""
@@ -34,6 +35,7 @@ def is_conflict(new_start: datetime, new_end: datetime, existing_start: datetime
 
 
 # ---------- Routes ----------
+
 
 @app.get("/")
 async def home(request: Request):
@@ -68,10 +70,15 @@ async def room_page(room_id: int, request: Request, error_message: str = None):
                 "person_email": b["person_email"],
             })
 
-    # ส่ง error_message ไปด้วย (ถ้ามี)
+    # ส่ง error_message ไปในชื่อ "error" ให้ template ใช้
     return templates.TemplateResponse(
         "room.html",
-        {"request": request, "room": room, "bookings": room_bookings, "error": error_message}
+        {
+            "request": request,
+            "room": room,
+            "bookings": room_bookings,
+            "error": error_message,
+        }
     )
 
 

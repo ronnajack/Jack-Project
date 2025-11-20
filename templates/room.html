@@ -1,78 +1,61 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html>
-<head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta http-equiv="Content-Style-Type" content="text/css">
-  <title></title>
-  <meta name="Generator" content="Cocoa HTML Writer">
-  <meta name="CocoaVersion" content="2685.2">
-  <style type="text/css">
-    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Times; -webkit-text-stroke: #000000}
-    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Times; -webkit-text-stroke: #000000; min-height: 14.0px}
-    span.s1 {font-kerning: none}
-  </style>
-</head>
-<body>
-<p class="p1"><span class="s1">{% extends 'base.html' %}</span></p>
-<p class="p1"><span class="s1">{% block content %}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;h1&gt;ห้องซ้อม: {{ room.name }}&lt;/h1&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;p&gt;รายละเอียด: {{ room.description }}&lt;/p&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;p&gt;ความจุ: {{ room.capacity }} คน&lt;/p&gt;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;a href="/"&gt;กลับไปหน้าห้องซ้อมทั้งหมด&lt;/a&gt;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;hr&gt;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>{# 👈 แก้ไข: ใช้ตัวแปร 'error' ที่ส่งมาจาก URL Query Parameter ใน main.py #}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>{% if request.query_params.error_message %}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;h3 style="color:red;"&gt;⚠️ ข้อผิดพลาดในการจอง&lt;/h3&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;p style="color:red; font-weight: bold;"&gt;{{ request.query_params.error_message }}&lt;/p&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>{% endif %}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;hr&gt;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;h2&gt;ตารางการจองของห้องนี้&lt;/h2&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>{% if bookings|length == 0 %}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;p&gt;ยังไม่มีการจองสำหรับห้องนี้&lt;/p&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>{% else %}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;ul&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>{% for b in bookings %}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>{# 👈 แก้ไข: ใช้ field 'time' ที่รวมช่วงเวลาแล้ว #}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;li&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>**วันที่:** {{ b.date }} |<span class="Apple-converted-space"> </span></span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>**เวลา:** {{ b.time }} |<span class="Apple-converted-space"> </span></span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>**ผู้จอง:** {{ b.person_name }}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;/li&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>{% endfor %}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;/ul&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>{% endif %}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;hr&gt;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;h2&gt;ฟอร์มจองห้องซ้อม&lt;/h2&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;form method="post" action="/book/{{ room.id }}"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;p&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;label for="date"&gt;วันที่:&lt;/label&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;input type="date" id="date" name="date" required&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;/p&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;p&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;label for="start_time"&gt;เวลาเริ่มต้น (HH:MM):&lt;/label&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;input type="time" id="start_time" name="start_time" required&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;/p&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;p&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;label for="end_time"&gt;เวลาสิ้นสุด (HH:MM):&lt;/label&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;input type="time" id="end_time" name="end_time" required&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;/p&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;p&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;label for="person_name"&gt;ชื่อผู้จอง:&lt;/label&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;input type="text" id="person_name" name="person_name" required&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;/p&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;p&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;label for="person_email"&gt;อีเมล:&lt;/label&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;input type="email" id="person_email" name="person_email" required&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;/p&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;button type="submit"&gt;ยืนยันการจอง&lt;/button&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;/form&gt;</span></p>
-<p class="p1"><span class="s1">{% endblock %}</span></p>
-</body>
-</html>
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>ห้องซ้อม: {{ room.name }}</h1>
+  <p>รายละเอียด: {{ room.description }}</p>
+  <p>ความจุ: {{ room.capacity }} คน</p>
+
+  <p><a href="/">กลับไปหน้าห้องซ้อมทั้งหมด</a></p>
+
+  <hr>
+
+  {# แสดง error ถ้ามีส่งมาจาก main.py ผ่านตัวแปร error #}
+  {% if error %}
+    <h3 style="color:red;">⚠️ ข้อผิดพลาดในการจอง</h3>
+    <p style="color:red; font-weight: bold;">{{ error }}</p>
+  {% endif %}
+
+  <hr>
+
+  <h2>ตารางการจองของห้องนี้</h2>
+  {% if bookings|length == 0 %}
+    <p>ยังไม่มีการจองสำหรับห้องนี้</p>
+  {% else %}
+    <ul>
+      {% for b in bookings %}
+        <li>
+          <strong>วันที่:</strong> {{ b.date }} |
+          <strong>เวลา:</strong> {{ b.time }} |
+          <strong>ผู้จอง:</strong> {{ b.person_name }}
+        </li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+
+  <hr>
+
+  <h2>ฟอร์มจองห้องซ้อม</h2>
+  <form method="post" action="/book/{{ room.id }}">
+    <p>
+      <label for="date">วันที่:</label>
+      <input type="date" id="date" name="date" required>
+    </p>
+    <p>
+      <label for="start_time">เวลาเริ่มต้น (HH:MM):</label>
+      <input type="time" id="start_time" name="start_time" required>
+    </p>
+    <p>
+      <label for="end_time">เวลาสิ้นสุด (HH:MM):</label>
+      <input type="time" id="end_time" name="end_time" required>
+    </p>
+    <p>
+      <label for="person_name">ชื่อผู้จอง:</label>
+      <input type="text" id="person_name" name="person_name" required>
+    </p>
+    <p>
+      <label for="person_email">อีเมล:</label>
+      <input type="email" id="person_email" name="person_email" required>
+    </p>
+    <button type="submit">ยืนยันการจอง</button>
+  </form>
+{% endblock %}
